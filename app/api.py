@@ -64,21 +64,26 @@ def retrieve_reviews():
     rating = request.args.get('rating')
     
     # Prepare base query
-    query = "SELECT * FROM reviews WHERE 1=1"
-    params = []
+    conditions = []
+    params = {}
     
     # Add filters if provided
     if color:
-        query += " AND color = ?"
-        params.append(color)
+        conditions.append("color = :color")
+        params['color'] = color
     
     if storage:
-        query += " AND storage = ?"
-        params.append(storage)
+        conditions.append("storage = :storage")
+        params['storage'] = storage
     
     if rating:
-        query += " AND rating = ?"
-        params.append(rating)
+        conditions.append("rating = :rating")
+        params['rating'] = rating
+    
+    # Construct full query
+    query = "SELECT * FROM reviews"
+    if conditions:
+        query += " WHERE " + " AND ".join(conditions)
     
     # Execute query
     engine = get_db_connection()
