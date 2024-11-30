@@ -1,56 +1,76 @@
-# Python Development - Trainee Task
+# Amazon Review Sentiment Analysis API
+
+## Overview
+This application scrapes Amazon product reviews, performs sentiment analysis, and provides an API for retrieving and analyzing reviews.
 
 ## Prerequisites
 - Python 3.8+
-- Virtual Environment
+- Google Chrome
+- pip package manager
 
-## Setup Instructions
+## Installation
+
 1. Clone the repository:
-    
-    git clone <repository_url>
-    cd assignment
-    
-2. Create and activate a virtual environment:
-    
-    python -m venv env
-    source env/bin/activate  # For Linux/Mac
-    env\Scripts\activate     # For Windows
-    
-3. Install dependencies:
-    
-    pip install -r requirements.txt
-    
+bash
+git clone https://your-repository-url.git
+cd amazon-reviews-sentiment-api
 
-## Running the Project
-1. Run the scraper to populate the database:
-    
-    python app/scraper.py
-    
-2. Start the API server:
-    
-    python app/api.py
-    
 
-## API Endpoints
-1. *Sentiment Analysis API*
-   - *URL*: /sentiment
-   - *Method*: POST
-   - *Input*:
-     json
-     {
-       "review": "This is a great product!"
-     }
-     
-   - *Output*:
-     json
-     {
-       "sentiment": "positive"
-     }
-     
+2. Install required packages:
+bash
+pip install selenium webdriver_manager flask textblob pandas sqlalchemy
 
-2. *Review Retrieval API*
-   - *URL*: /reviews
-   - *Method*: GET
-   - *Query Parameters*: color, size
-   - *Output*:
-     A list of reviews in JSON format.
+
+## Components
+- scraper.py: Web scrapes Amazon product reviews
+- api.py: Flask API for sentiment analysis and review retrieval
+
+## Usage
+
+### 1. Scrape Reviews
+bash
+python app/scraper.py
+
+- Scrapes reviews from the specified Amazon product page
+- Saves reviews to SQLite database amazon_reviews.db
+
+### 2. Start API Server
+bash
+python app/api.py
+
+- Runs on http://localhost:5000
+
+### 3. API Endpoints
+
+#### Sentiment Analysis
+- *Endpoint*: /sentiment
+- *Method*: POST
+- *Request Body*: {"review": "Your review text"}
+- *Response*: Sentiment classification (positive/negative/neutral)
+
+#### Review Retrieval
+- *Endpoint*: /reviews
+- *Method*: GET
+- *Query Parameters*: 
+  - color: Product color
+  - storage: Storage size
+  - rating: Review rating
+
+## Example Curl Commands
+
+1. Sentiment Analysis:
+bash
+curl -X POST http://localhost:5000/sentiment \
+     -H "Content-Type: application/json" \
+     -d '{"review": "This phone is amazing!"}'
+
+
+2. Review Retrieval:
+bash
+curl "http://localhost:5000/reviews?color=blue&storage=128GB&rating=5"
+
+
+## Notes
+- Requires Google Chrome
+- Respects web scraping ethics
+- For educational and personal use only
