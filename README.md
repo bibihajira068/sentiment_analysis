@@ -12,7 +12,7 @@ This application scrapes Amazon product reviews, performs sentiment analysis, an
 
 1. Clone the repository:
 bash
-git clone https://your-repository-url.git
+git clone https://github.com/bibihajira068/sentiment_analysis.git
 cd amazon-reviews-sentiment-api
 
 
